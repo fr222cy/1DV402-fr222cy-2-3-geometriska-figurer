@@ -59,7 +59,7 @@ namespace _2_3_geometriska_figurer
         
         public override string ToString()
         {
-            return String.Format("Längd : {0,10}\nHöjd : {1,10}\nOmkrets : {2,10}\nArea : {3,10}", Lenght, Width, Perimeter, Area);
+            return String.Format("Length      : {0,10:f2}\nWidth       : {1, 10:f2}\nPerimeter   : {2, 10:f2}\nArea        : {3, 10:f2}", Lenght, Width, Perimeter, Area);
         }
     }
 

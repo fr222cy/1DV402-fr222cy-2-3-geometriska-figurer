@@ -12,40 +12,40 @@ namespace _2_3_geometriska_figurer
         public enum ShapeType { none, Rectangle, Ellipse };
         static void Main(string[] args)
         {
-        
-       
-            ViewMenu();
-            
-            exit = false;
-            int input;
-            ShapeType whatShape;
-
-
-            while (true)
+            do
             {
+                Console.Clear();
+                ViewMenu();
+                int input;
                 
-               
                 if (int.TryParse(Console.ReadLine(), out input) && input >= 0 && input <= 2)
-                
-                {
-                    switch (input)
                     {
-                        case 0:
-                            exit = true;
-                            break;
-                        case 1:
-                            whatShape = ShapeType.Ellipse;
-                            CreateShape(whatShape);
-                            break;
-                        case 2:
-                            whatShape = ShapeType.Rectangle;
-                            CreateShape(whatShape);
-                            break;
+                        switch (input)
+                        {
+                            case 0:
+                                Console.WriteLine();
+                                return;
+                            case 1:
+                                ViewShapeDetail(CreateShape(ShapeType.Ellipse));
+                                break;
+                            case 2:
+                                ViewShapeDetail(CreateShape(ShapeType.Rectangle));
+                                break;
+                        }
+
+
                     }
-                }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("You need to enter a number between 0 and 2!\nPress any key to continue, ESC exits       ");
+                        Console.ResetColor();
+                    }
+               
+
             }
-
-
+            while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
 
         private static Shape CreateShape(ShapeType shapeType)
@@ -53,32 +53,26 @@ namespace _2_3_geometriska_figurer
             //Skapar nya lokala variabler.
             double length;
             double width;
+            Shape shape;
+
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             Console.WriteLine("╔════════════════════════════════════════════════╗");
-            Console.WriteLine("║      {0,12}                              ║", shapeType);
+            Console.WriteLine("║   {0,25}                    ║", shapeType);
             Console.WriteLine("╚════════════════════════════════════════════════╝");
             Console.ResetColor();
 
-            length = ReadDoubleGreaterThanZero("Ange längd:");
-            width = ReadDoubleGreaterThanZero("Ange bredd:");
+            length = ReadDoubleGreaterThanZero("Type in the Length: ");
+            width = ReadDoubleGreaterThanZero("Type in the Width: ");
+
 
           
-
-            switch (shapeType)
+            if (shapeType == ShapeType.Ellipse)
             {
-
-                case ShapeType.Ellipse:
-                    return new Ellipse(length, width);
-                    
-                case ShapeType.Rectangle:
-                    return new Rectangle(length, width);
-
-                default:
-                    throw new NotImplementedException();
+                return shape = new Ellipse(length, width);
             }
-
+                return shape = new Rectangle(length, width);            
         }
 
         private static double ReadDoubleGreaterThanZero(string prompt)
@@ -86,33 +80,31 @@ namespace _2_3_geometriska_figurer
             string input;
             double number;
 
-            Console.Write(prompt);
-
-            input = Console.ReadLine();
-            number = Double.Parse(input);
             while (true)
             {
+                Console.Write(prompt);
+                input = Console.ReadLine();
+                
                 try
                 {
-
-
-                if (number <= 0)
-                {
-                    throw new ArgumentException();
+                    number = Double.Parse(input);
+                    if (number < 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("FEL! {0} Är mindre än noll.", input);
+                        Console.ResetColor();
+                    }
+                    return number;
                 }
-                }
-                catch
-                {
+                catch (FormatException)
+                    {
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("{0} Är inte ett giltigt tal eller nummer!", input);
+                    Console.WriteLine("FEL! {0} Är !", input);
                     Console.ResetColor();
-                }
-                return number;
-            }
-               
-            
-
+                    }
+              }
         }
 
         private static void ViewMenu()
@@ -121,7 +113,7 @@ namespace _2_3_geometriska_figurer
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("╔════════════════════════════════════════════════╗");
             Console.WriteLine("║                                                ║");
-            Console.WriteLine("║              Geometriska Figurer               ║");
+            Console.WriteLine("║         What form would you like to use?       ║");
             Console.WriteLine("║                                                ║");
             Console.WriteLine("╚════════════════════════════════════════════════╝");
             Console.ResetColor();
@@ -141,7 +133,11 @@ namespace _2_3_geometriska_figurer
             Console.ResetColor();
             Console.WriteLine(shapeType.ToString());
 
-            
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Press Any Key To Make A New Calculation.\nESC Exits.");
+            Console.ResetColor();
         }
     }
 }
